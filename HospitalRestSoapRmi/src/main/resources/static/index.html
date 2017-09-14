@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hospital</title>
+<link rel="stylesheet" type="text/css"
+	href="bootstrap-4.0.0-alpha.6-dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/myStyle.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+<link rel="stylesheet"
+	href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+
+</head>
+<body ng-app="hospitalApp" ng-controller="hospitalController">
+	<div class="well text-center">
+		<h2>Hospital Application</h2>
+		<p>
+			<a href="#">By Maradjah Inc.</a>
+		</p>
+	</div>
+	<!-- Recherche Patient -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="card spacer">
+					<div class="card-header"
+						style="background-color: #BBDEFB; border-color: #333;">Search
+						Patients</div>
+					<div class="card-block" align="center">
+						<form>
+							<div class="form-group">
+								<label>Code Patient</label> <input type="text"
+									ng-model="codePatient">
+								<button type="button" class="btn btn-primary btn-sm"
+									ng-click="loadPatient()">Load</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div ng-if="patient" class="col-lg-6">
+				<div class="card spacer">
+					<div class="card-header"
+						style="background-color: #BBDEFB; border-color: #333;">Patient
+						Info</div>
+					<div class="spacer">
+						<div class="form-group">
+							<label>Nom Patient : </label> <label>{{patient.namePerson}}</label>
+						</div>
+						<div class="form-group">
+							<label>Birth date :</label> <label>{{patient.birthDate|date:'yyyy-MM-dd'}}</label>
+						</div>
+						<div class="form-group">
+							<label>Gender :</label> <label>{{patient.gender}}</label>
+						</div>
+						<div class="form-group">
+							<label>Sickness :</label> <label>{{patient.sickness}}</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Ajouter Patient -->
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="card spacer">
+					<div class="card-header"
+						style="background-color: #BBDEFB; border-color: #333;">Add
+						Patient</div>
+					<div class="card-block">
+						<div class="form-group row">
+							<label class="col-2 col-form-label">Name</label>
+							<div class="col-10">
+								<input ng-model="namePerson" class="form-control" type="text">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="example-search-input" class="col-2 col-form-label">DoB</label>
+							<div class="input-group col-10">
+								<div class="input-group-addon">
+									<i class="fa fa-calendar"> </i>
+								</div>
+								<input ng-model="birthDate" class="form-control" id="date"
+									name="date" placeholder="DD-MM-YYYY" type="text" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="example-email-input" class="col-2 col-form-label">Sickness</label>
+							<div class="col-10">
+								<input ng-model="sickness" class="form-control" type="text">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="example-email-input" class="col-2 col-form-label">Gender</label>
+							<div class="col-10">
+								<input ng-model="gender" class="form-control" type="text">
+							</div>
+						</div>
+						<div align="center">
+							<div>
+								<button type="button" class="btn btn-primary btn-sm"
+									ng-click="addPatients()">Add Patient</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-6">
+				<div class="card spacer">
+					<div class="card-header"
+						style="background-color: #BBDEFB; border-color: #333;">List
+						Patients</div>
+					<div class="spacer">
+						<!-- <div class="form-group">
+							<label>Nom Patient : </label> <label>{{patient.namePerson}}</label>
+						</div>
+						<div class="form-group">
+							<label>Birth date :</label> <label>{{patient.birthDate|date:'yyyy-MM-dd'}}</label>
+						</div>
+						<div class="form-group">
+							<label>Sickness :</label> <label>{{patient.sickness}}</label>
+						</div> -->
+						<!-- <div>
+							<button type="button" class="btn btn-primary btn-sm"
+								ng-click="loadAllPatients()">Load Patients</button>
+						</div> -->
+						<table class="table table-hover">
+							<thead>
+								<tr class="spacer">
+									<th>Name</th>
+									<th>Gender</th>
+									<!-- <th>BirthDate</th> -->
+									<th>Sickness</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat=" p in pagePatients.patients">
+									<td>{{p.namePerson}}</td>
+									<td>{{p.gender}}</td>
+									<!-- <td>{{p.birthDate}}</td> -->
+									<td>{{p.sickness}}</td>
+									<td><button type="button" class="btn btn-success btn-sm"
+											ng-click="updatePatient()">Update</button></td>
+									<td><button type="button" class="btn btn-danger btn-sm"
+											ng-confirm-click="Are you sure to delete this patient ?"
+											confirmed-click="deletePatient(p.codePerson)">Delete</button></td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="container">
+							<ul class="pagination pagination-sm justify-content-center">
+								<li class="page-item" ng-class="{active: $index==pageCourante}" ng-repeat="pa in pages track by $index">
+									<a class="page-link" ng-click="goToPage($index)">{{$index}}</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- scripts -->
+	<!-- Include jQuery -->
+	<script type="text/javascript"
+		src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+	<!-- Include Date Range Picker -->
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+
+
+	<script>
+		$(document).ready(
+				function() {
+					var date_input = $('input[name="date"]'); //our date input has the name "date"
+					var container = $('.bootstrap-iso form').length > 0 ? $(
+							'.bootstrap-iso form').parent() : "body";
+					date_input.datepicker({
+						format : 'dd-mm-yyyy',
+						container : container,
+						todayHighlight : true,
+						autoclose : true,
+					})
+				})
+	</script>
+	<script type="text/javascript" src="angular/angular.min.js"></script>
+	<script type="text/javascript" src="js/myApp.js"></script>
+</body>
+</html>

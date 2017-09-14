@@ -1,0 +1,19 @@
+.spacer{
+	margin-top : 20px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.clickable{
+	
+	cursor: pointer;
+}
+
+/* table tr {
+    width: 50px;
+}
+ */
+/* table tr td {
+    padding-top: 10px;
+    padding-bottom: 50px;
+} */
